@@ -2,14 +2,14 @@ DEPENDENCIES
   myapp
     path: .
     metadata: true
+  ruby_build (~> 0.8.0)
+  ruby_rbenv (~> 1.0.1)
 
 GRAPH
   apt (2.9.2)
   java (1.36.0)
     apt (>= 0.0.0)
   myapp (0.1.0)
-    ruby_build (~> 0.8.0)
-    ruby_rbenv (~> 1.0.1)
   ruby_build (0.8.0)
   ruby_rbenv (1.0.1)
     java (> 1.4.0)

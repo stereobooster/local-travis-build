@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  # config.vm.hostname = 'myapp-berkshelf'
+  # config.vm.hostname = 'myapp'
 
   # Set the version of chef to install using the vagrant-omnibus plugin
   # NOTE: You will need to install the vagrant-omnibus plugin:
@@ -60,7 +60,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # information on available options.
 
   # The path to the Berksfile to use with Vagrant Berkshelf
-  # config.berkshelf.berksfile_path = "./Berksfile"
+  config.berkshelf.berksfile_path = "./dev/Berksfile"
 
   # Enabling the Berkshelf plugin. To enable this globally, add this configuration
   # option to your ~/.vagrant.d/Vagrantfile file
@@ -75,16 +75,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.berkshelf.except = []
 
   config.vm.provision :chef_solo do |chef|
-    # chef.json = {
-    #   mysql: {
-    #     server_root_password: 'rootpass',
-    #     server_debian_password: 'debpass',
-    #     server_repl_password: 'replpass'
-    #   }
-    # }
+    # chef.add_recipe
+    # chef.log_level = :debug
+
+    chef.json = {
+      rbenv: {
+        rubies: ['2.2.2'],
+        global: '2.2.2',
+        gem: {
+          '2.2.2' => [
+            {name: 'bundler'},
+            {name: 'rake'}
+          ]
+        }
+      }
+    }
 
     chef.run_list = [
-     'recipe[myapp::default]'
+      'recipe[ruby_build]', 'recipe[ruby_rbenv::system]'
     ]
   end
 end
